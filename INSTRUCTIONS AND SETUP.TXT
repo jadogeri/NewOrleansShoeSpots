@@ -1,1 +1,2 @@
 https://dev.to/rushitjivani/ultimate-folder-structure-for-your-react-native-project-1k27
+https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers
