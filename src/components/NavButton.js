@@ -10,7 +10,7 @@ const NavButton = (props) => {
   return (
     <Pressable onPress={()=>{navigation.navigate(props.routeName)}}>
     <LinearGradient
-        style={[props.style1,props.style2]}
+        style={props.buttonStyle}
         locations={[0, 0.27, 0.56, 0.83]}
         colors={["#4aabf8", "#75c2ff", "#4aabf8", "#99d2ff"]}
       >

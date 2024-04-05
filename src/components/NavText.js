@@ -8,7 +8,7 @@ const NavText = (props) => {
 
   return (
     <Pressable onPress={()=>{navigation.navigate(props.routeName)}}>
-    <Text style={props.buttonStyle}>
+    <Text style={props.textStyle}>
     {props.title}
   </Text>
   </Pressable>

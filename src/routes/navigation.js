@@ -2,17 +2,19 @@ const Stack = createNativeStackNavigator();
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import GetStarted from "./src/screens/GetStarted";
-import Register from "./src/screens/Register";
-import Login from "./src/screens/Login";
-import LoginActive from "./src/screens/LoginActive";
-import Register1 from "./src/screens/Register1";
-import RegisterVerification1 from "./src/screens/RegisterVerification1";
-import RegisterSuccess from "./src/screens/RegisterSuccess";
-import LoginChangePassword from "./src/screens/LoginChangePassword";
-import RegisterValidation from "./src/screens/RegisterValidation";
-import LoginForgotPassword from "./src/screens/LoginForgotPassword";
-import RegisterVerification from "./src/screens/RegisterVerification";
+import GetStarted from "../screens/GetStarted/GetStarted";
+//import Register from "../screens/Register/Register";
+import Login from "../screens/Login/Login";
+import ForgotPassword from "../screens/ForgotPassword/ForgotPassword"
+import ChangePassword from "../screens/ChangePassword/ChangePassword";
+// import LoginActive from "../screens/LoginActive/LoginActive";
+// import Register1 from "../screens/Register1/Register1";
+// import RegisterVerification1 from "../screens/RegisterVerification1/RegisterVerification1";
+// import RegisterSuccess from "../screens/RegisterSuccess/RegisterSuccess";
+// import LoginChangePassword from "../screens/LoginChangePassword/LoginChangePassword";
+// import RegisterValidation from "../screens/RegisterValidation/RegisterValidation";
+// import LoginForgotPassword from "../screens/LoginForgotPassword/LoginForgotPassword";
+// import RegisterVerification from "../screens/RegisterVerification/RegisterVerification";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -30,17 +32,27 @@ const Navigation = () => {
               component={GetStarted}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="Register"
               component={Register}
               options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
               name="Login"
               component={Login}
               options={{ headerShown: false }}
             />
             <Stack.Screen
+              name="ForgotPassword"
+              component={ForgotPassword}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ChangePassword"
+              component={ChangePassword}
+              options={{ headerShown: false }}
+            />
+            {/* <Stack.Screen
               name="LoginActive"
               component={LoginActive}
               options={{ headerShown: false }}
@@ -79,7 +91,7 @@ const Navigation = () => {
               name="RegisterVerification"
               component={RegisterVerification}
               options={{ headerShown: false }}
-            />
+            /> */}
           </Stack.Navigator>
         ) : null}
       </NavigationContainer>
