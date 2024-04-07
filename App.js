@@ -5,9 +5,16 @@ import { useFonts } from "expo-font";
 import Navigation from "./src/routes/navigation";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
-
+import { initializeApp } from "firebase/app";
+import firebaseConfig from "./config/firebase/firebase";
+import useFirebase from "./src/hooks/useFirebase";
 const App = () => {
+  console.log("*********************initialize firebase *******************==== ",initializeApp(firebaseConfig))
+  const [db] = useFirebase();
+  console.log("**********8db instance*************")
+  console.log("*****************database*******************************",db)
+  alert(JSON.stringify(db))
+
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
 
   const [fontsLoaded, error] = useFonts({

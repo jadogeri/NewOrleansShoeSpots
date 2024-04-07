@@ -15,4 +15,4 @@ export const textInputChange = (val, data,setter) =>{
             isValidUser: false
         });
     }
-}
+};

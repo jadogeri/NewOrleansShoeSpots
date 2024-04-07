@@ -3,7 +3,7 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import GetStarted from "../screens/GetStarted/GetStarted";
-//import Register from "../screens/Register/Register";
+import Register from "../screens/Register/Register";
 import Login from "../screens/Login/Login";
 import ForgotPassword from "../screens/ForgotPassword/ForgotPassword"
 import ChangePassword from "../screens/ChangePassword/ChangePassword";
@@ -32,11 +32,11 @@ const Navigation = () => {
               component={GetStarted}
               options={{ headerShown: false }}
             />
-            {/* <Stack.Screen
+            <Stack.Screen
               name="Register"
               component={Register}
               options={{ headerShown: false }}
-            /> */}
+            />
             <Stack.Screen
               name="Login"
               component={Login}

@@ -1,19 +1,46 @@
-import React,{useState} from "react";
-import { Text, View ,TouchableOpacity} from "react-native";
-import { Image } from "expo-image";
-import IPhoneWithNotch from "../../components/IPhoneWithNotch";
+import React from "react";
+import { Text, View } from "react-native";
+import styles from "./styles";
 import ScreenTitle from "../../components/ScreenTitle";
-import NavButton from "../../components/NavButton";
 import SocialAccountButton from "../../components/SocialAccountButton";
-import NavText from "../../components/NavText";
 import { useNavigation } from "@react-navigation/core";
-import InputField from "../../components/InputField";
 import LoginForm from "../../components/LoginForm/LoginForm";
 
 
 const Login = () => {
- return
-  <LoginForm />
+  const navigation = useNavigation();
+
+
+  return (
+    <View style={styles.login}>
+      <View style={styles.registerContent}>
+      <Text style={[styles.getStarted, styles.textTypo,{color:"blue"}]}>Sign In</Text>
+      <LoginForm />     
+      
+        <Text style={[styles.orUseSocial, styles.emailTypo]}>
+          
+          <Text style={{color:"blue"}} onPress={()=>navigation.navigate("Register")}>Create account </Text> 
+          or use social account
+        </Text>
+        <View style={styles.continueWithSocial}>
+     
+          <SocialAccountButton containerStyle={[styles.continueLayout]}
+            imageStyle={styles.icbaselineEmailIcon3} source={require("../../../assets/icbaselineemail3.png")}
+            textStyle={[styles.continueWithGoogle1, styles.emailTypo]} title="Continue with Google"
+          />      
+          <SocialAccountButton containerStyle={[styles.continueWithTwitter, styles.continueLayout]}
+            imageStyle={styles.icbaselineEmailIcon3} source={require("../../../assets/icbaselineemail6.png")}
+            textStyle={[styles.continueWithGoogle1, styles.emailTypo]} title="Continue with Twitter"
+          />        
+          <SocialAccountButton containerStyle={[styles.continueWithTwitter, styles.continueLayout]}
+            imageStyle={styles.icbaselineEmailIcon3} source={require("../../../assets/icbaselineemail5.png")}
+            textStyle={[styles.continueWithGoogle1, styles.emailTypo]} title="Continue with Facebook"
+          />
+        </View>
+      </View>
+      <ScreenTitle style={[styles.signIn, styles.signInTypo]} title="Sign in"/>    
+    </View>
+  );
 };
 
 
