@@ -5,10 +5,52 @@ import ScreenTitle from "../../components/ScreenTitle";
 import SocialAccountButton from "../../components/SocialAccountButton";
 import { useNavigation } from "@react-navigation/core";
 import LoginForm from "../../components/LoginForm/LoginForm";
+import useFirebase from "../../hooks/useFirebase";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
 
 
 const Login = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
+  const [ auth] = useFirebase();
+
+  // onLoginOrRegister = () => {
+  //   GoogleSignin.signIn()
+  //     .then((data) => {
+  //       // Create a new Firebase credential with the token
+  //       const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+  //       // Login with the credential
+  //       return firebase.auth().signInWithCredential(credential);
+  //     })
+  //     .then((user) => {
+  //       // If you need to do anything with the user, do it here
+  //       // The user will be logged in automatically by the
+  //       // `onAuthStateChanged` listener we set up in App.js earlier
+  //     })
+  //     .catch((error) => {
+  //       const { code, message } = error;
+  //       // For details of error codes, see the docs
+  //       // The message contains the default Firebase string
+  //       // representation of the error
+  //     });
+  // }
+
+
+  const googleLoginHandler = () =>{
+
+    try{
+    //const provider =  new GoogleAuthProvider();
+    //signInWithPopup(auth,provider)
+    // const result = await signInWithPopup(auth, provider);
+    // console.log("result === ",result)
+    // const user = result.user;
+    // console.log("user === ",user)
+    }catch(e){
+      console.log(e)
+    }
+
+  }
+  
 
 
   return (
@@ -24,7 +66,7 @@ const Login = () => {
         </Text>
         <View style={styles.continueWithSocial}>
      
-          <SocialAccountButton containerStyle={[styles.continueLayout]}
+          <SocialAccountButton containerStyle={[styles.continueLayout]} //onPress={googleLoginHandler}
             imageStyle={styles.icbaselineEmailIcon3} source={require("../../../assets/icbaselineemail3.png")}
             textStyle={[styles.continueWithGoogle1, styles.emailTypo]} title="Continue with Google"
           />      
@@ -47,7 +89,312 @@ const Login = () => {
 
 export default Login;
 
+/**
+ * import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import useFirebase from './src/hooks/useFirebase';
+import { useState } from 'react';
 
+export default function App() {
+  const [db,colRef,getFirestore,collection,deleteDoc,getDocs,addDoc,doc, onSnapshot,
+         query,where,orderBy,updateDoc,getDoc,setDoc,auth,
+         createUserWithEmailAndPassword,signOut,signInWithEmailAndPassword] = useFirebase();
+  console.log("database instance",JSON.stringify(db));
+  const [data, setData] = useState([])
+  const [author, setAuthor] = useState("");
+  const [title, setTitle]= useState("");
+  const [bookID, setBookID]= useState("");
+  const [email, setEmail]= useState("");
+  const [password, setPassword]= useState("");
+  const [singleDoc, setSingleDoc] = useState({})
+  const [user, setUser] = useState({});
+
+
+  let books = []
+
+  const getBooks =()=>{
+    // get collection data
+  getDocs(colRef)
+  .then(snapshot => {
+     console.log("snapshot docs",snapshot.docs)
+    let books = []
+    snapshot.docs.forEach(doc => {
+      books.push({ ...doc.data(), id: doc.id })
+      setData(books)
+    })
+    console.log(JSON.stringify(books))
+  })
+  .catch(err => {
+    console.log(err.message)
+  })
+  }
+
+  // getting all data in collection using collection reference
+  // onSnapshot(colRef, (snapshot)=>{
+  //   console.log("snapshot docs",snapshot.docs)
+  //   let books = []
+  //   snapshot.docs.forEach(doc => {
+  //     books.push({ ...doc.data(), id: doc.id })
+  //     setData(books)
+  //   })
+  //   console.log(JSON.stringify(books)) 
+  
+  // })
+
+  //getting subset of collection using query
+
+  const q = query(colRef, where("author","==","tom clancy"));
+
+  // onSnapshot(colRef, (snapshot)=>{
+  //   console.log("snapshot docs",snapshot.docs)
+  //   let books = []
+  //   snapshot.docs.forEach(doc => {
+  //     books.push({ ...doc.data(), id: doc.id })
+  //     setData(books)
+  //   })
+  //   console.log(JSON.stringify(books)) 
+  
+  // })
+
+  //get a single document
+  const docRef = doc(db, "books", "qMDL7Rs4k5JnI9BVrqIh")
+
+  // onSnapshot(docRef, (doc)=>{
+  //   console.log(doc.data(),doc.id)
+  //   setSingleDoc(doc)
+  // })
+
+
+
+// const getBooks =()=>{
+//   // get collection data
+// getDocs(colRef)
+// .then(snapshot => {
+//    console.log("snapshot docs",snapshot.docs)
+//   let books = []
+//   snapshot.docs.forEach(doc => {
+//     books.push({ ...doc.data(), id: doc.id })
+//     setData(books)
+//   })
+//   console.log(JSON.stringify(books))
+// })
+// .catch(err => {
+//   console.log(err.message)
+// })
+// }
+
+const addBook =()=>{
+   addDoc(colRef, {
+    title: title,
+    author: author,
+  })
+  .catch((e) => {
+    console.log(e);
+  })
+}
+
+
+const deleteBook =(book)=>{
+// // deleting docs
+  const docRef = doc(db, 'books', bookID)
+
+  deleteDoc(docRef)
+    .then(() => {
+      console.log("deleted book with id ",bookID)
+    }).catch((error)=>{
+      console.log(error)
+    })
+}
+
+
+const updateBook =()=>{
+  // // deleting docs
+    const docRef = doc(db, 'books', bookID)
+  
+    console.log("title of book == ", title)
+  setDoc(docRef, {title : title})
+    .then(() => {
+      console.log("updated book with id ",bookID)
+    }).catch((error)=>{
+      console.log(error)
+  })
+}
+
+const createUser =()=>{
+  // // deleting docs
+  
+    console.log("create user with credentials == ", "email == ",email," password ==  ",password)
+  createUserWithEmailAndPassword(auth,email,password)
+    .then((cred) => {
+      console.log("created user",cred.user)
+      setUser(cred.user)
+    }).catch((error)=>{
+      console.log(error)
+      console.log(JSON.stringify(error))
+
+  })
+}
+
+const sign_out = ()=>{
+  signOut(auth).then(()=>{console.log("user signed out")}).catch((e)=> console.log(e))
+
+}
+
+const sign_in = ()=>{
+ signInWithEmailAndPassword(auth, email,password)
+ .then((cred)=>{console.log("cred ",typeof cred,"user ",typeof cred.user,cred.user), " logged in";setUser(cred) } )
+ .catch((e)=>{console.log(e)})
+
+}
+
+
+
+  return (
+    <>
+    <View style={styles.container}>
+    <button onClick={createUser}>Create User</button>
+    <h2> user logged in</h2>
+    <h4>{JSON.stringify(user,null,2)}</h4>
+    <button onClick={sign_out}>sing out</button>
+    <button onClick={sign_in}>sing in</button>
+    <input placeholder='enter email' value={email} onChange={(e)=>setEmail(e.target.value)}></input>
+    <input placeholder='enter password' value={password} onChange={(e)=>setPassword(e.target.value)}></input>
+
+    
+      <Text>Open to start working onla ll your app! 12345</Text>
+      <StatusBar style="auto" />
+      <button onClick={getBooks}
+      >get books</button>
+     <Text>{JSON.stringify(data)}</Text>
+     <div style={{flexDirection : "row"}}> 
+     <button onClick={addBook}>add book</button>   
+       <input placeholder='enter author' value={author} onChange={(e)=>setAuthor(e.target.value)}></input>
+       <input placeholder='enter title' value={title} onChange={(e)=>setTitle(e.target.value)}></input>
+       </div> 
+     <Text>{JSON.stringify(data)}</Text>  
+     <button onClick={deleteBook}>delete book</button>
+       <input placeholder='enter book id' value={bookID} onChange={(e)=>setBookID(e.target.value)}></input>
+     <Text>{JSON.stringify(data)}</Text>  
+     <button onClick={updateBook}>update book</button>
+       <input placeholder='enter book id' value={bookID} onChange={(e)=>setBookID(e.target.value)}></input>
+       <input placeholder='enter author' value={author} onChange={(e)=>setAuthor(e.target.value)}></input>
+       <input placeholder='enter title' value={title} onChange={(e)=>setTitle(e.target.value)}></input>
+     <Text>{JSON.stringify(data)}</Text>  
+    </View>
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+
+
+/**
+ * 
+import { initializeApp } from 'firebase/app'
+import {
+  getFirestore, collection, getDocs,
+  addDoc, deleteDoc, doc
+} from 'firebase/firestore'
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDmXgb_58lO7aK_ujN37pGlNxzWGEU0YpI",
+  authDomain: "fb9-sandbox.firebaseapp.com",
+  projectId: "fb9-sandbox",
+  storageBucket: "fb9-sandbox.appspot.com",
+  messagingSenderId: "867529587246",
+  appId: "1:867529587246:web:dc754ab7840c737f47bdbf"
+}
+
+// init firebase
+initializeApp(firebaseConfig)
+
+// init services
+const db = getFirestore()
+
+// collection ref
+const colRef = collection(db, 'books')
+
+// get collection data
+getDocs(colRef)
+  .then(snapshot => {
+    // console.log(snapshot.docs)
+    let books = []
+    snapshot.docs.forEach(doc => {
+      books.push({ ...doc.data(), id: doc.id })
+    })
+    console.log(books)
+  })
+  .catch(err => {
+    console.log(err.message)
+  })
+
+// adding docs
+const addBookForm = document.querySelector('.add')
+addBookForm.addEventListener('submit', (e) => {
+  e.preventDefault()
+
+  addDoc(colRef, {
+    title: addBookForm.title.value,
+    author: addBookForm.author.value,
+  })
+  .then(() => {
+    addBookForm.reset()
+  })
+})
+
+// deleting docs
+const deleteBookForm = document.querySelector('.delete')
+deleteBookForm.addEventListener('submit', (e) => {
+  e.preventDefault()
+
+  const docRef = doc(db, 'books', deleteBookForm.id.value)
+
+  deleteDoc(docRef)
+    .then(() => {
+      deleteBookForm.reset()
+    })
+})
+
+ */
+
+
+
+
+
+// // Import the functions you need from the SDKs you need
+// import { initializeApp } from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
+// // TODO: Add SDKs for Firebase products that you want to use
+// // https://firebase.google.com/docs/web/setup#available-libraries
+
+// // Your web app's Firebase configuration
+// // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBze88AjFtaCI8sz727BLb9OU9zR1DBWo8",
+//   authDomain: "neworleansfoodspots-b97c1.firebaseapp.com",
+//   projectId: "neworleansfoodspots-b97c1",
+//   storageBucket: "neworleansfoodspots-b97c1.appspot.com",
+//   messagingSenderId: "359160571189",
+//   appId: "1:359160571189:web:2d301a5c0ed089e070987c",
+//   measurementId: "G-HS7E46LGMY"
+// };
+
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
+ 
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
 /**
  * 
  * import React, { useContext, useState } from "react";

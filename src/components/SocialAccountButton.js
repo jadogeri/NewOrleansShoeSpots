@@ -3,7 +3,7 @@ import React from 'react'
 
 const SocialAccountButton = (props) => {
   return (
-    <Pressable onPress={()=>{alert("i pressed")}}>
+    <Pressable onPress={props.onPress}>
       <View style={props.containerStyle}>
         <Image
           style={props.imageStyle}

@@ -8,7 +8,9 @@ const NavButton = (props) => {
     const navigation = useNavigation();
 
   return (
-    <Pressable onPress={()=>{navigation.navigate(props.routeName)}}>
+    <Pressable onPress={props.onPress}
+    //onPress={()=>{navigation.navigate(props.routeName)}}
+    >
     <LinearGradient
         style={props.buttonStyle}
         locations={[0, 0.27, 0.56, 0.83]}

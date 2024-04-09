@@ -10,12 +10,43 @@ import AuthErrorText from "../AuthErrorText/AuthErrorText";
 import { confirmPasswordChangeHandler } from "../../helpers/confirmPasswordChangeHandler";
 import { updateConfirmSecureEntry } from "../../helpers/updateConfirmSecureEntry";
 import {textInputChange} from "../../helpers/textInputChange"
+import useFirebase from "../../hooks/useFirebase";
+import { createUserWithEmailAndPassword, getAuth}  from "firebase/auth";
+import { useNavigation } from "@react-navigation/core";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let defaultData = { email: '', password: '',confirmPassword: '', username: '', secureTextEntry: true, check_textInputChange: false,
                     confirmSecureTextEntry: true, check_textInputChange: false, hash: '' }
 
 const RegisterForm = memo(() => {
+
+  const auth = getAuth();
+  const navigation = useNavigation();
   const [data, setData] = useState(defaultData)
+  const [user, setUser] = useState({});
+
+  const registerUserHandler = () =>{
+  
+    console.log("create user with credentials == ", "email == ",data.email," password ==  ",data.password)
+    console.log("***************** auth******************", auth)
+console.log("***************************", typeof createUserWithEmailAndPassword)
+    createUserWithEmailAndPassword(auth,data.email,data.password)
+    .then((cred) => {
+      console.log("***********************created user*************************",cred.user)
+      setUser(cred.user)
+      AsyncStorage.setItem("user",JSON.stringify(cred.user))
+      navigation.navigate("Dashboard")
+      })
+    .catch((error)=>{
+        console.log("*****************error*********************",error)
+        console.log(JSON.stringify(error))
+  
+    })
+    
+
+
+
+  }
 
   return (
     <View>
@@ -108,7 +139,7 @@ const RegisterForm = memo(() => {
       </View>
   
       <NavButton routeName="Login"  buttonStyle={[styles.getStartedButton, styles.mail1Layout]}
-        textStyle={styles.getStarted} title="Create Account"
+        textStyle={styles.getStarted} title="Create Account" onPress={registerUserHandler}
       />      
     </View>
   );

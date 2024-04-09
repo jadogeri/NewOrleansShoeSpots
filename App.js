@@ -1,19 +1,25 @@
-const Stack = createNativeStackNavigator();
+
 import * as React from "react";
 import { useFonts } from "expo-font";
 
+
 import Navigation from "./src/routes/navigation";
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "./config/firebase/firebase";
-import useFirebase from "./src/hooks/useFirebase";
+//import useFirebase from "./src/hooks/useFirebase";
 const App = () => {
-  console.log("*********************initialize firebase *******************==== ",initializeApp(firebaseConfig))
-  const [db] = useFirebase();
+  console.log("*********************initialize firebase *******************==== ")
+  console.log(firebaseConfig)
+  const app = initializeApp(firebaseConfig);
+  console.log(app)
+  
+
+
+  //const [db] = useFirebase();
   console.log("**********8db instance*************")
-  console.log("*****************database*******************************",db)
-  alert(JSON.stringify(db))
+ // console.log("",db)
+ // alert(JSON.stringify(db))
 
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
 
@@ -40,3 +46,18 @@ const App = () => {
   );
 };
 export default App;
+
+/**
+ * import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+});
+ */
+
+
+
+
+
+
+

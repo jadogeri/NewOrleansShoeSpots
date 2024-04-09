@@ -5,8 +5,10 @@ import IPhoneWithNotch from "../../components/IPhoneWithNotch";
 import NavButton from "../../components/NavButton";
 import HexImage from "../../components/HexImage";
 import styles from "./styles";
+import { useNavigation } from "@react-navigation/core";
 
 const GetStarted = () => {
+  const navigation = useNavigation();
   
   return (
     <View style={{flex:1,heigth:"100%",marginLeft:5,resizeMode :"auto"}}>
@@ -15,9 +17,9 @@ const GetStarted = () => {
         contentFit="cover"
         source={require("../../../assets/underline.png")}
       />
-        <NavButton buttonStyle={[styles.getStartedButton,styles.textFlexBox]}
-                 textStyle={styles.getStarted1} title="Get Started" routeName="Login"/> 
-      <View style={[styles.text, styles.textFlexBox]}>
+        <NavButton buttonStyle={[styles.getStartedButton,styles.textFlexBox]} onPress={()=>{navigation.navigate("Login")}}
+                 textStyle={styles.getStarted1} title="Get Started" /> 
+      <View style={[styles.text, styles.textFlexBox]}> 
         <Text style={styles.loremIpsumIs}>Lorem ipsum is a placeholder</Text>
         <Text style={styles.loremipsum}>LoremIpsum</Text>
       </View>
