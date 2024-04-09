@@ -33,8 +33,10 @@ console.log("***************************", typeof createUserWithEmailAndPassword
     createUserWithEmailAndPassword(auth,data.email,data.password)
     .then((cred) => {
       console.log("***********************created user*************************",cred.user)
-      setUser(cred.user)
-      AsyncStorage.setItem("user",JSON.stringify(cred.user))
+      const {user} = cred
+      
+      setUser(user)
+      AsyncStorage.setItem("user",JSON.stringify(user))
       navigation.navigate("Dashboard")
       })
     .catch((error)=>{

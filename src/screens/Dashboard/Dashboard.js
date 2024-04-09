@@ -15,6 +15,7 @@ import {
 
 
 } from "firebase/auth"
+import { useNavigation } from '@react-navigation/core'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -41,9 +42,11 @@ const [email, setEmail]= useState("");
 const [password, setPassword]= useState("");
 const [singleDoc, setSingleDoc] = useState({})
 const [user, setUser] = useState({});
+const navigation = useNavigation()
 
 
  const userInfo = AsyncStorage.getItem("user");
+ //console.log("userifno ==== ",userInfo)
  //setUser(userInfo)
 
   // getting all data in collection using collection reference
@@ -152,13 +155,16 @@ const createUser =()=>{
 
 const sign_out = ()=>{
   signOut(auth).then(()=>{console.log("user signed out")}).catch((e)=> console.log(e))
+  navigation.navigate("Login")
 
 }
 
 const sign_in = ()=>{
   console.log("sign in with email === ",email," password === ",password)
  signInWithEmailAndPassword(auth, email,password)
- .then((cred)=>{console.log("cred ",typeof cred,"user ",typeof cred.user,cred.user), " logged in";setUser(cred) } )
+ .then((cred)=>{console.log("cred ",typeof cred,"user ",typeof cred.user,cred.user), " logged in";setUser(cred.user) 
+  
+} )
  .catch((e)=>{console.log(e)})
 
 }

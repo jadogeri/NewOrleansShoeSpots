@@ -8,11 +8,22 @@ import Navigation from "./src/routes/navigation";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "./config/firebase/firebase";
 //import useFirebase from "./src/hooks/useFirebase";
+import { getAuth } from "firebase/auth";
 const App = () => {
   console.log("*********************initialize firebase *******************==== ")
   console.log(firebaseConfig)
   const app = initializeApp(firebaseConfig);
   console.log(app)
+  const auth = getAuth()
+
+  // auth.onAuthStateChanged(user =>{
+  //   console.log("**************************************this is the current user*******************",user)
+  //   if(user){
+  //     alert("user logged in")
+  //   }else{
+  //     alert("user logged out")
+  //   }
+  // })
   
 
 

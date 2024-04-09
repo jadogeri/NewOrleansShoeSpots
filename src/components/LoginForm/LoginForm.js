@@ -9,19 +9,16 @@ import {passwordChangeHandler} from "../../helpers/passwordChangeHandler";
 import { updateSecureEntry } from "../../helpers/updateSecureEntry";
 import { useNavigation } from "@react-navigation/core";
 import useFirebase from "../../hooks/useFirebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword , getAuth} from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 let defaultData = { email: 'joekadama@hotmail.com', password: '@Awolfscry1', username: '', secureTextEntry: true, check_textInputChange: false, hash: '' }
 
 const LoginForm = () => {
     const [data, setData] = useState(defaultData)
     const navigation = useNavigation();
-    const [db,colRef,getFirestore,collection,deleteDoc,getDocs,addDoc,doc, onSnapshot,
-      query,where,orderBy,updateDoc,getDoc,setDoc,auth,GoogleAuthProvider,signInWithPopup,
-      createUserWithEmailAndPassword,signOut 
-    
-    
-    ] = useFirebase();
+    const [db]= useFirebase();
+    const auth = getAuth()
   console.log("database instance",JSON.stringify(db));
   console.log("typeof ===",typeof signInWithEmailAndPassword);
 
@@ -32,6 +29,7 @@ const LoginForm = () => {
 
   signInWithEmailAndPassword(auth, data.email,data.password)
   .then((cred)=>{console.log("cred ",typeof cred,"user ",typeof cred.user,cred.user), " logged in";//setUser(cred) 
+  AsyncStorage.setItem("user",JSON.stringify(cred.user))
   navigation.navigate("Dashboard")
 } )
   .catch((e)=>{console.log("************************error*************************",e)})
