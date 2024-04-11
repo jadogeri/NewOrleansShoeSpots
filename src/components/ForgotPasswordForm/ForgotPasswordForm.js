@@ -1,43 +1,58 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image } from "expo-image";
-import { Border, Color, FontFamily, FontSize, Padding } from "../../GlobalStyles";
+import { Border, Color, FontFamily, FontSize, Padding } from "../../../GlobalStyles";
+import { useNavigation } from "@react-navigation/core";
+import InputField from "../InputField";
+import { textInputChange } from "../../helpers/textInputChange";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { getAuth } from "firebase/auth";
+import NavButton from "../NavButton";
 
-const Board = memo(() => {
+const handleReset = (email) => {
+  const auth = getAuth();
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      console.log("success");
+      alert("success")
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log("An error has occured: ", errorCode, errorMessage);
+    });
+};
+const ForgotPasswordForm = memo(() => {
+  const [value, setValue] = useState({email : ""} );
+
   return (
     <View style={[styles.board, styles.boardLayout]}>
       <View style={[styles.boardContainer, styles.boardLayout]} />
-      <LinearGradient
-        style={[styles.getStartedButton, styles.mailFlexBox]}
-        locations={[0, 0.27, 0.56, 0.83]}
-        colors={["#4aabf8", "#75c2ff", "#4aabf8", "#99d2ff"]}
-      >
-        <Text style={styles.getStarted}>Send Code</Text>
-      </LinearGradient>
+     
+      <NavButton buttonStyle={[styles.getStartedButton, styles.mailFlexBox]}
+        textStyle={styles.getStarted} title="Send Code"
+        onPress={()=>{handleReset(value.email)}}
+      />
       <View style={styles.content}>
         <View style={styles.forgotPasswordParent}>
           <Text style={[styles.forgotPassword, styles.emailOrPhoneClr]}>
             Forgot Password
           </Text>
           <Text style={[styles.enterYourEmail, styles.emailTypo]}>
-            Enter your email or password
+            Enter your email to reset password
           </Text>
         </View>
         <View style={styles.email}>
           <Text style={[styles.emailOrPhone, styles.emailTypo]}>
-            Email or Phone number
+            Email 
           </Text>
-          <View style={[styles.mail, styles.mailFlexBox]}>
-            <Image
-              style={styles.icbaselineEmailIcon}
-              contentFit="cover"
-              source={require("../../assets/icbaselineemail7.png")}
+          
+          <InputField label="Your Email" inputFieldStyle={[styles.mailFlexBox]} onChangeText={(input) => { textInputChange(input, value.email,setValue) }}
+            leftIcon="email" leftIconColor={value.email.length !== 0 ?"blue": "black"} textColor={value.email.length !== 0 ?"blue": "black"} 
+            leftIconStyle={{left:-5 }} iconStyle={styles.icbaselineEmailIcon}
+            
             />
-            <Text style={[styles.abcdefghijkgmailcom, styles.emailTypo]}>
-              abcdefg.hijk@gmail.com
-            </Text>
-          </View>
         </View>
       </View>
     </View>
@@ -142,4 +157,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Board;
+export default ForgotPasswordForm;

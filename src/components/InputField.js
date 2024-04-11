@@ -7,7 +7,7 @@ const InputField = (props) => {
       placeholder={props.placeholder} style={props.inputFieldStyle} 
       label={props.label} textColor={props.textColor}
       autoCapitalize="none" secureTextEntry={props.secureTextEntry} 
-      onChangeText={props.onChangeText} activeOutlineColor='purple'
+      onChangeText={props.onChangeText} activeOutlineColor='purple' value={props.value}
       left={<TextInput.Icon icon={props.leftIcon} color={props.leftIconColor} size={props.leftSize}  style={props.leftIconStyle} />}
       right={<TextInput.Icon icon={props.rightIcon} color={props.rightIconColor} size={props.rightSize}  style={props.righttIconStyle} onPress={props.eyePressHandler}/>}
 
@@ -16,4 +16,3 @@ const InputField = (props) => {
 }
 
 export default InputField
-

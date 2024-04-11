@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View,StatusBar,Button, TextInput,ScrollView } from 'react-native'
-import React ,{useState} from 'react'
+import React ,{useState , useEffect} from 'react'
 import {
   getFirestore, collection
  , getDocs,
@@ -12,14 +12,22 @@ import {
  updatePassword, updatePhoneNumber, updateProfile, signInWithEmailAndPassword,
  verifyBeforeUpdateEmail, deleteUser, getAdditionalUserInfo, sendEmailVerification,
  sendPasswordResetEmail, signInWithPopup,  GoogleAuthProvider,
-
-
 } from "firebase/auth"
 import { useNavigation } from '@react-navigation/core'
 
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import getStorageData from '../../helpers/getStorageData'
 
 let books = []
+
+const getUserData = (db,collection,uid,setter)=>{
+    //get a single document
+    const docRef = doc(db, collection, uid)
+
+    onSnapshot(docRef, (doc)=>{
+      console.log(doc.data(),doc.id)
+      setter(doc.data())
+    })
+}
 
 
 const Dashboard = () => {
@@ -43,9 +51,23 @@ const [password, setPassword]= useState("");
 const [singleDoc, setSingleDoc] = useState({})
 const [user, setUser] = useState({});
 const navigation = useNavigation()
+const [userInfo, setUserInfo] = useState({})
+const [userCollectionData, setUserCollectionData] = useState({})
 
 
- const userInfo = AsyncStorage.getItem("user");
+let stringData = getStorageData()
+console.log("stribg data ===============",stringData, typeof stringData)
+
+useEffect(() => {
+  stringData.then((res)=>{
+    setUserInfo(JSON.parse(res))
+    let data = JSON.parse(res)
+    getUserData(db,"users",data.uid,setUserCollectionData)
+  
+  }).catch((e)=> console.log(e))
+  
+}, []);
+ 
  //console.log("userifno ==== ",userInfo)
  //setUser(userInfo)
 
@@ -180,6 +202,8 @@ const sign_in = ()=>{
     <Button onPress={sign_in} title="sing in"/>
     <TextInput placeholder='enter email' value={email} onChangeText={(input)=>setEmail(input)} />
     <TextInput placeholder='enter password' value={password} onChangeText={(input)=>setPassword(input)} /> 
+    <Text>user collection data </Text>
+    <Text>{JSON.stringify(userCollectionData)}</Text>
 
       {/* 
       <Text>Open to start working onla ll your app! 12345</Text>

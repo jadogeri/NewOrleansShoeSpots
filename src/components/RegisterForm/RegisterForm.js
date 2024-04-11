@@ -13,10 +13,14 @@ import {textInputChange} from "../../helpers/textInputChange"
 import useFirebase from "../../hooks/useFirebase";
 import { createUserWithEmailAndPassword, getAuth}  from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { addDoc, doc, setDoc } from "firebase/firestore";
+import setStorageData from "../../helpers/setStorageData";
+import getStorageData from "../../helpers/getStorageData";
 
 let defaultData = { email: '', password: '',confirmPassword: '', username: '', secureTextEntry: true, check_textInputChange: false,
                     confirmSecureTextEntry: true, check_textInputChange: false, hash: '' }
+
+
 
 const RegisterForm = memo(() => {
 
@@ -26,17 +30,41 @@ const RegisterForm = memo(() => {
   const [user, setUser] = useState({});
 
   const registerUserHandler = () =>{
+    const [db, usersCollection] = useFirebase();
+    console.log("db in register form === ", db)
   
     console.log("create user with credentials == ", "email == ",data.email," password ==  ",data.password)
     console.log("***************** auth******************", auth)
-console.log("***************************", typeof createUserWithEmailAndPassword)
     createUserWithEmailAndPassword(auth,data.email,data.password)
     .then((cred) => {
       console.log("***********************created user*************************",cred.user)
       const {user} = cred
+      //add user tostorage 
+      setStorageData(cred.user);
+      const ref = doc(db,"users",user.uid)
+      console.log("**********************ref === ",ref);
+      const docRef = setDoc(ref,{email : user.email,name : "kingggggg"})
+    
+      console.log(" ***************testing get created user from asyncstorage******************")
+      console.log("line 52 get from storage",JSON.stringify(getStorageData()))
+
+
+      /*
+      **
+      const addBook =()=>{
+   addDoc(colRef, {
+    title: title,
+    author: author,
+  })
+  .catch((e) => {
+    console.log(e);
+  })
+}
+
+      */
       
       setUser(user)
-      AsyncStorage.setItem("user",JSON.stringify(user))
+      //AsyncStorage.setItem("user",JSON.stringify(user))
       navigation.navigate("Dashboard")
       })
     .catch((error)=>{

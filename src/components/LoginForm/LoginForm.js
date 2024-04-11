@@ -11,8 +11,11 @@ import { useNavigation } from "@react-navigation/core";
 import useFirebase from "../../hooks/useFirebase";
 import { signInWithEmailAndPassword , getAuth} from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import setStorageData from "../../helpers/setStorageData";
+import getStorageData from "../../helpers/getStorageData";
 
-let defaultData = { email: 'joekadama@hotmail.com', password: '@Awolfscry1', username: '', secureTextEntry: true, check_textInputChange: false, hash: '' }
+
+let defaultData = { email: '', password: '', username: '', secureTextEntry: true, check_textInputChange: false, hash: '' }
 
 const LoginForm = () => {
     const [data, setData] = useState(defaultData)
@@ -29,7 +32,8 @@ const LoginForm = () => {
 
   signInWithEmailAndPassword(auth, data.email,data.password)
   .then((cred)=>{console.log("cred ",typeof cred,"user ",typeof cred.user,cred.user), " logged in";//setUser(cred) 
-  AsyncStorage.setItem("user",JSON.stringify(cred.user))
+  console.log("data saving to async storage === ", cred.user,typeof cred.user);
+  setStorageData(cred.user);
   navigation.navigate("Dashboard")
 } )
   .catch((e)=>{console.log("************************error*************************",e)})
@@ -64,15 +68,16 @@ const LoginForm = () => {
               
               />
           </View>         
-            <NavText title="Change password ?" routeName="ChangePassword" textStyle={[styles.forgotPassword, styles.mailSpaceBlock]}
+            <NavText title="Change password ?" routeName="LoginChangePassword" textStyle={[styles.forgotPassword, styles.mailSpaceBlock]}
             />
-            <NavText title="Forgot password ?" routeName="ForgotPassword" textStyle={[styles.forgotPassword, styles.mailSpaceBlock,{top:-22, left:-180}]}
+            <NavText title="Forgot password ?" routeName="LoginForgotPassword" textStyle={[styles.forgotPassword, styles.mailSpaceBlock,{top:-22, left:-180}]}
+            email={data.email}
             />   
 
         </View>    
         
         <NavButton routeName="GetStarted"  buttonStyle={[styles.getStartedButton, styles.getStartedButtonFlexBox]}
-          textStyle={[styles.getStarted, styles.signInTypo]} title="Sign In" onPress={loginHandler}
+          textStyle={[styles.getStarted, styles.signInTypo]} title="Sign In" onPress={loginHandler} 
       />         
     </View>
 

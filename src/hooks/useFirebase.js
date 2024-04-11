@@ -23,7 +23,9 @@ const auth = getAuth();
 
 // collection ref
 const colRef = collection(db, 'books')
+const usersCollection = collection(db, 'users')
 
 
- return [ db,colRef,auth ] 
+
+ return [ db,colRef,, usersCollection,auth ] 
 }
