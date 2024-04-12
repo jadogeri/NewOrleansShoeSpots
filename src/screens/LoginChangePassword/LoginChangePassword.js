@@ -1,6 +1,5 @@
 import  React, {useState} from "react";
 import { Text, StyleSheet, View } from "react-native";
-import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import Password from "../../components/Password";
 import IPhoneWithNotch from "../../components/IPhoneWithNotch";
@@ -9,9 +8,18 @@ import InputField from "../../components/InputField";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
 import LoginForm from "../../components/LoginForm/LoginForm";
+import { passwordChangeHandler } from "../../helpers/passwordChangeHandler";
+import { confirmPasswordChangeHandler } from "../../helpers/confirmPasswordChangeHandler";
+import {newPasswordChangeHandler} from "../../helpers/newPasswordChangeHandler"
+import { updateSecureEntry } from "../../helpers/updateSecureEntry";
+import { updateNewSecureEntry } from "../../helpers/updateNewSecureEntry";
+import { updateConfirmSecureEntry } from "../../helpers/updateConfirmSecureEntry";
+import { textInputChange } from "../../helpers/textInputChange";
+import NavButton from "../../components/NavButton";
+import HorizontalSpacer from "../../components/HorizontalSpacer"
 
-let defaultData = { email: '', password: '',confirmPassword: '', username: '', secureTextEntry: true, check_textInputChange: false,
-                    confirmSecureTextEntry: true, check_textInputChange: false, hash: '' }
+let defaultData = { email: '', password: '',newPassword: '',confirmPassword: '', username: '', secureTextEntry: true, check_textInputChange: false,
+newSecureTextEntry: true,confirmSecureTextEntry: true, check_textInputChange: false, hash: '' }
 const LoginChangePassword = () => {
   const auth = getAuth();
   const navigation = useNavigation();
@@ -19,79 +27,108 @@ const LoginChangePassword = () => {
   const [user, setUser] = useState({});
   return (
 
-    <View style={styles.loginChangePassword}>
+    <View style={[styles.loginChangePassword]}>
  
-      <View style={[styles.board, styles.boardLayout]}>
+      <View style={[styles.board, styles.boardLayout,{top:90}]}>
         <View style={[styles.boardContainer, styles.boardLayout]} />
-        <LinearGradient
-          style={[styles.getStartedButton1, styles.getFlexBox]}
-          locations={[0, 0.27, 0.56, 0.83]}
-          colors={["#4aabf8", "#75c2ff", "#4aabf8", "#99d2ff"]}
-        >
-          <Text style={[styles.getStarted1, styles.getTypo]}>
-            Reset Password
-          </Text>
-        </LinearGradient>
+  
+        
         {/* <LoginForm /> */}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <View style={styles.content}>
-          <View style={styles.resetPasswordParent}>
-            <Text style={[styles.resetPassword, styles.signInTypo]}>
+        <View style={styles.resetPasswordParent}>
+            <Text style={[styles.resetPassword, styles.signInTypo,{top:-20}]}>
               Reset Password
             </Text>
-            <Text style={[styles.youCanChange, styles.youCanChangeSpaceBlock]}>
-              You can change password.
-            </Text>
+           
           </View>
-          <Password passwordInput="Password" />
-          <Password passwordInput="Confirm Password" />
+
+        <Text style={{bottom:-22}}>Email</Text>
+
+      <InputField leftIcon="email" onChangeText={(input) => { textInputChange(input,data,setData) }}
+      leftIconColor={data.email.length > 8 ?"blue": "black"}  textColor={data.email.length > 8 ?"blue": "black"} 
+      leftIconStyle={{left:-5 }} inputFieldStyle={styles.password} label="Enter email"
+      />
+      <Text style={[styles.password1, styles.textTypo]}>Current Password</Text>
+
+      <InputField leftIcon="lock" textColor={data.password.length > 8 ?"blue": "black"}
+          rightIcon={data.secureTextEntry?"eye-off" : "eye"} label="Enter current password"
+          eyePressHandler={()=>updateSecureEntry(data,setData)} secureTextEntry={data.secureTextEntry}
+          onChangeText={(input) => { passwordChangeHandler(input,data,setData) }}
+          leftIconColor={data.password.length > 8 ?"blue": "black"}  
+          />
+        <Text style={[styles.password1, styles.textTypo]}>New Password</Text>
+
+        <InputField leftIcon="lock" textColor={data.newPassword.length > 8 ?"blue": "black"}
+        rightIcon={data.newSecureTextEntry?"eye-off" : "eye"} label="Enter new password"
+        eyePressHandler={()=>updateNewSecureEntry(data,setData)} secureTextEntry={data.newSecureTextEntry}
+        onChangeText={(input) => { newPasswordChangeHandler(input,data,setData) }}
+        leftIconColor={data.newPassword.length > 8 ?"blue": "black"}  
+        />
+        <Text style={[styles.password1, styles.textTypo]}>confirm Password</Text>
+
+        <InputField leftIcon="lock" textColor={data.confirmPassword.length > 8 ?"blue": "black"}
+        rightIcon={data.confirmSecureTextEntry?"eye-off" : "eye"} label="Enter confirm password"
+        eyePressHandler={()=>updateConfirmSecureEntry(data,setData)} secureTextEntry={data.confirmSecureTextEntry}
+        onChangeText={(input) => { confirmPasswordChangeHandler(input,data,setData) }}
+        leftIconColor={data.confirmPassword.length > 8 ?"blue": "black"}  
+        />
+               
+
+
+        {/* 
+
+
+
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+{/* 
+        <View style={styles.password}>
+      <Text style={[styles.password1, styles.textTypo]}></Text>
+      <View style={[styles.mail, styles.mailFlexBox]}>
+        <View style={styles.mailFlexBox}>
+          <Image
+            style={styles.icbaselineEmailIcon}
+            contentFit="cover"
+           // source={require("../../assets/icbaselineemail8.png")}
+          />
+          <Text style={[styles.text, styles.textTypo]}>*************</Text>
+        </View>
+        <Image
+          style={styles.icbaselineEmailIcon1}
+          contentFit="cover"
+          //source={require("../../assets/icbaselineemail2.png")}
+        />
+      </View>
+    </View>
+ */}
+
+
+       <View style={styles.content}>
+         
+
+
+
+          <NavButton buttonStyle={[styles.getStartedButton1, styles.getFlexBox,{top:320}]} 
+          textStyle={[styles.getStarted1, styles.getTypo]} title="Reset Password" onPress={()=> {alert("pressed")}}/>
+
+
+          
+       
         </View>
       </View>
-      <Image
-        style={styles.underlineIcon}
-        contentFit="cover"
-        source={require("../../../assets/underline.png")}
-      />
+    
       {/* <IPhoneWithNotch /> */}
     </View>
   );
@@ -324,6 +361,124 @@ const styles = StyleSheet.create({
     height: 800,
     backgroundColor: Color.colorWhite,
   },
+  textTypo: {
+    textAlign: "left",
+    color: Color.colorGray_100,
+    fontSize: FontSize.size_sm,
+  },
+  mailFlexBox: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  password1: {
+    fontFamily: FontFamily.urbanistRegular,
+  },
+  icbaselineEmailIcon: {
+    width: 20,
+    height: 20,
+    overflow: "hidden",
+  },
+  text: {
+    letterSpacing: -0.6,
+    fontFamily: FontFamily.poppinsRegular,
+    marginLeft: 12,
+  },
+  icbaselineEmailIcon1: {
+    width: 18,
+    height: 18,
+    overflow: "hidden",
+  },
+  mail: {
+    borderRadius: Border.br_3xs,
+    backgroundColor: Color.colorWhitesmoke,
+    width: 300,
+    height: 50,
+    justifyContent: "space-between",
+    padding: Padding.p_smi,
+    marginTop: 4,
+  },
+  password: {
+    justifyContent: "center",
+    marginTop: 24,
+  },
 });
 
 export default LoginChangePassword;
+
+
+
+/**
+ * import React, { memo } from "react";
+import { Text, StyleSheet, View } from "react-native";
+import { Image } from "expo-image";
+import { Color, FontSize, FontFamily, Border, Padding } from "../../GlobalStyles";
+
+const Password = memo(({ passwordInput }) => {
+  return (
+    <View style={styles.password}>
+      <Text style={[styles.password1, styles.textTypo]}>{passwordInput}</Text>
+      <View style={[styles.mail, styles.mailFlexBox]}>
+        <View style={styles.mailFlexBox}>
+          <Image
+            style={styles.icbaselineEmailIcon}
+            contentFit="cover"
+            source={require("../../assets/icbaselineemail8.png")}
+          />
+          <Text style={[styles.text, styles.textTypo]}>*************</Text>
+        </View>
+        <Image
+          style={styles.icbaselineEmailIcon1}
+          contentFit="cover"
+          source={require("../../assets/icbaselineemail2.png")}
+        />
+      </View>
+    </View>
+  );
+});
+
+const styles = StyleSheet.create({
+  textTypo: {
+    textAlign: "left",
+    color: Color.colorGray_100,
+    fontSize: FontSize.size_sm,
+  },
+  mailFlexBox: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  password1: {
+    fontFamily: FontFamily.urbanistRegular,
+  },
+  icbaselineEmailIcon: {
+    width: 20,
+    height: 20,
+    overflow: "hidden",
+  },
+  text: {
+    letterSpacing: -0.6,
+    fontFamily: FontFamily.poppinsRegular,
+    marginLeft: 12,
+  },
+  icbaselineEmailIcon1: {
+    width: 18,
+    height: 18,
+    overflow: "hidden",
+  },
+  mail: {
+    borderRadius: Border.br_3xs,
+    backgroundColor: Color.colorWhitesmoke,
+    width: 300,
+    height: 50,
+    justifyContent: "space-between",
+    padding: Padding.p_smi,
+    marginTop: 4,
+  },
+  password: {
+    justifyContent: "center",
+    marginTop: 24,
+  },
+});
+
+export default Password;
+
+ */

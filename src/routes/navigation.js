@@ -27,8 +27,10 @@ const Navigation = () => {
     <>
       <NavigationContainer>
         {hideSplashScreen ? (
+          
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen
+  
+            <Stack.Screen            
               name="GetStarted"
               component={GetStarted}
               options={{ headerShown: false }}
@@ -48,16 +50,22 @@ const Navigation = () => {
               component={Dashboard}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="LoginChangePassword"
               component={LoginChangePassword}
               options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
+              
               name="LoginForgotPassword"
               component={LoginForgotPassword}
               options={{ headerShown: false }}
             />
+
+
+
+
+
              {/* 
             <Stack.Screen
               name="RegisterVerification1"

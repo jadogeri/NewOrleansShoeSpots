@@ -9,10 +9,11 @@ import { initializeApp } from "firebase/app";
 import firebaseConfig from "./config/firebase/firebase";
 //import useFirebase from "./src/hooks/useFirebase";
 import { getAuth } from "firebase/auth";
+let app;
 const App = () => {
   console.log("*********************initialize firebase *******************==== ")
   console.log(firebaseConfig)
-  const app = initializeApp(firebaseConfig);
+   app = initializeApp(firebaseConfig);
   console.log(app)
   const auth = getAuth()
 
@@ -68,7 +69,6 @@ const auth = initializeAuth(app, {
 
 
 
-
-
+export {app}
 
 

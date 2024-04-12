@@ -11,7 +11,7 @@ const SocialAccountButton = (props) => {
           source={props.source}
         />
         <Text style={props.textStyle}>
-          {props.title}
+          {props.title} 
         </Text>
       </View>
     </Pressable>
