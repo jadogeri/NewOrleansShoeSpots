@@ -36,23 +36,6 @@ const Login = () => {
   // }
 
 
-  const googleLoginHandler = () =>{
-
-    try{
-    //const provider =  new GoogleAuthProvider();
-    //signInWithPopup(auth,provider)
-    // const result = await signInWithPopup(auth, provider);
-    // console.log("result === ",result)
-    // const user = result.user;
-    // console.log("user === ",user)
-    }catch(e){
-      console.log(e)
-    }
-
-  }
-  
-
-
   return (
     <View style={styles.login}>
       <View style={styles.registerContent}>

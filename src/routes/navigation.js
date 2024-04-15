@@ -50,11 +50,11 @@ const Navigation = () => {
               component={Dashboard}
               options={{ headerShown: false }}
             />
-            {/* <Stack.Screen
+           <Stack.Screen
               name="LoginChangePassword"
               component={LoginChangePassword}
               options={{ headerShown: false }}
-            /> */}
+            /> 
             <Stack.Screen
               
               name="LoginForgotPassword"

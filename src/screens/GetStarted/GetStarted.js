@@ -6,8 +6,14 @@ import NavButton from "../../components/NavButton";
 import HexImage from "../../components/HexImage";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/core";
+import { firebaseConfig } from "../../config/firebase/firebase";
+import { initializeApp } from "firebase/app";
+app = initializeApp(firebaseConfig);
+
 
 const GetStarted = () => {
+  console.log(firebaseConfig)
+ console.log(app)
   const navigation = useNavigation();
   
   return (

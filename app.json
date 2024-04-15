@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile_auth_ui_kit_(community)_(copy)",
-    "slug": "mobile_auth_ui_kit_(community)_(copy)",
+    "name": "new_orleans_shoe_spots",
+    "slug": "new_orleans_shoe_spots",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,11 +23,16 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "backgroundColor": "#FFFFFF"      },
+      "package": "com.josephadogeri.neworleansshoespots"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "130d9c4f-96cf-447f-b4c5-827fa27558e2"
+      }
     }
   }
 }

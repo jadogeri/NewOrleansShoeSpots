@@ -6,7 +6,7 @@ import IPhoneWithNotch from "../../components/IPhoneWithNotch";
 import { Color, Padding, FontFamily, Border, FontSize } from "../../../GlobalStyles";
 import SocialAccountButton from "../../components/SocialAccountButton";
 import RegisterForm from "../../components/RegisterForm/RegisterForm"
-import { googleSignUp } from "../../helpers/googleSignUp"
+
 const Register = () => {
   return (
     <View style={styles.register}>
@@ -84,7 +84,7 @@ const Register = () => {
           <SocialAccountButton containerStyle={[styles.continueLayout]}
             imageStyle={styles.basiluserSolidIcon} source={require("../../../assets/icbaselineemail3.png")}
             textStyle={[styles.continueWithGoogle1, styles.username1Typo]} title="Continue with Google"
-            onPress={googleSignUp}
+            onPress={()=>{alert("presssssssssssssss")}}
           />   
                 
           <SocialAccountButton containerStyle={[styles.continueWithTwitter, styles.continueLayout]}
